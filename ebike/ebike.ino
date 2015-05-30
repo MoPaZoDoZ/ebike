@@ -6,7 +6,7 @@
 #define OLED_RESET 4
 Adafruit_SSD1306 display(OLED_RESET);
 
-
+// HEJ JERRY
 
 int throttle = 0;
 int throttle2 = 0;
