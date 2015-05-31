@@ -177,7 +177,7 @@ unsigned long previousMillis2 = 0;
 
 void setup() {
   tone(10, 200, 50);
-  Serial.begin(9600);
+
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // initialize with the I2C addr 0x3D (for the 128x64)
   display.clearDisplay();
   display.drawBitmap(0, 0,  Logo, 128, 64, WHITE);
@@ -274,31 +274,7 @@ void loop() {
   tone(10, 1000, 1);
 
 
-  Serial.print("Throttle: ");
-  Serial.print(input);
-  Serial.print(" mapped: ");
-  Serial.print(throttle2);
-  Serial.print(" rpm: ");
-  Serial.print(rpm);
-  Serial.print(" rpm_count: ");
-  Serial.print(rpm_count);
-  Serial.print(" motor controller temp: ");
 
-  Serial.print(3);
-  Serial.print(" motor temp: ");
-  Serial.print(analogRead(A1));
-  Serial.print(" battery level: ");
-  Serial.print(analogRead(A2));
-  Serial.print("V");
-  Serial.print(" Charging: ");
-  Serial.print(charging);
-
-  Serial.print(" Amp1: ");
-  Serial.print(analogRead(A6));
-  Serial.print(" Amp2: ");
-  Serial.print(analogRead(A7));
-
-  Serial.println("");
 
   battery_voltage_data[0] = battery_voltage_data[1];
   battery_voltage_data[1] = battery_voltage_data[2];
@@ -306,13 +282,13 @@ void loop() {
   battery_voltage_data[3] = battery_voltage_data[4];
 
   // Update screen 500 ms
-  if (currentMillis - previousMillis >= 500) {
+  if (currentMillis - previousMillis >= 100) {
     draw_oled(true);
     previousMillis = currentMillis;
   }
   
   // Update heavy stuff
-  if (currentMillis - previousMillis2 >= 1000) {
+  if (currentMillis - previousMillis2 >= 200) {
     motor_temp = analogRead(A1);
     motor_temp = log(30000.0 * ((1024.0 / motor_temp - 1)));
     motor_temp = 1 / (0.001129148 + (0.000234125 + (0.0000000876741 * motor_temp * motor_temp )) * motor_temp );
